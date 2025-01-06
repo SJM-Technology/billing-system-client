@@ -42,7 +42,7 @@ export default function Home() {
                         )) : allProducts.length === 0 ? (
                             <p className="text-center text-neutral-500 col-span-4   ">Nenhum produto do tipo <strong>{category}</strong> encontrado.</p>
                         ) : allProducts.map(product => (
-                            <div key={product.id} className="p-4 space-y-4 border rounded-lg text-center shadow-sm hover:shadow-md transition overflow-hidden bg-white dark:bg-neutral-900 focus-visible:ring focus-visible:ring-sacalinha-first" onClick={() => handleAddToCart(product)}
+                            <div key={product.id} className="p-4 space-y-4 border rounded-lg text-center cursor-pointer shadow-sm hover:shadow-md transition overflow-hidden bg-white dark:bg-neutral-900 focus-visible:ring focus-visible:ring-sacalinha-first" onClick={() => handleAddToCart(product)}
                             >
                                 <div>
                                     <span className="text-xs text-neutral-500">{product.type.toUpperCase()}</span>

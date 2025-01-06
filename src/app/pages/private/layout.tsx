@@ -9,8 +9,9 @@ import { GenereteRefreshToken } from "@/core/hooks/auth/refreshtoken";
 export default function PrivateLayout() {
     const { data: loggedUser, isPending } = useSession();
 
-    /*   if (isPending) return <div>...loading</div>;
-      else if (!loggedUser) return <Navigate to="/login" replace />; */
+      if (isPending) return <div>...loading</div>;
+      else if (!loggedUser) return <Navigate to="/login" replace />;
+      
       const genereteRefreshToken = new GenereteRefreshToken();
       genereteRefreshToken.execute();
 
