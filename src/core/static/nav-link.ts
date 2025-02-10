@@ -4,7 +4,7 @@ export type INavLink = {
     id: string;
     title: string;
     url: string;
-    category: "all" | "burguer" | "hotdog" | "drink" | "extra" | "dessert";
+    category: "all" | "hamburguer" | "hotdog" | "drink" | "extra" | "dessert";
 }
 export const NAV_LINK: INavLink[] = [
     {
@@ -16,7 +16,7 @@ export const NAV_LINK: INavLink[] = [
     {
         id: randomUUID(),
         title: "Hamburguer",
-        category: "burguer",
+        category: "hamburguer",
         url: ""
     },
     {

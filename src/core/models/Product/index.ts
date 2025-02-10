@@ -2,5 +2,9 @@ export type IProduct = {
     id: string;
     name: string;
     price: number;
-    type: "all" | "burguer" | "hotdog" | "drink" | "extra" | "dessert";
+    category: "all" | "hamburguer" | "cachorro" | "bebidas" | "extra" | "sobremesa";
+}
+
+export type IOrderProducts = IProduct & {
+    quantity: number
 }

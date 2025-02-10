@@ -1,30 +1,54 @@
 import { useSearchParams } from "react-router-dom";
 import { Navigation } from "@/app/components/layout/Navigation";
-import { products } from "@/core/static/product";
 import { IProduct } from "@/core/models/Product";
 import { NAV_LINK } from "@/core/static/nav-link";
+import { useFindProduct } from "@/core/hooks/product";
 
 export default function Home() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const { data: products } = useFindProduct();
     const category = searchParams.get("category");
 
-    const allProducts = products.filter(product => {
-        return category === product.type.toLowerCase();
+    const allProducts = products?.filter(product => {
+        return (category === "hotdog" ? "cachorro": category) === product.category.toLowerCase();
     });
-
+    
     const handleSearch = (category: string) => {
         const normalizedCategory = category.toLowerCase().split(" ").join("-");
         setSearchParams({ category: normalizedCategory });
     };
 
-    const handleAddToCart = (product: IProduct) => {
+    /* const handleAddToCart = (product: IProduct) => {
         const currentCart = localStorage.getItem("cart-billing-system");
         const parsedCart = currentCart ? JSON.parse(currentCart) : [];
 
         parsedCart.push(product);
         localStorage.setItem("cart-billing-system", JSON.stringify(parsedCart));
-    };
+    }; */
+    
 
+    const handleAddToCart = (product: IProduct) => {
+        const currentCart = localStorage.getItem("cart-billing-system");
+        const parsedCart = currentCart ? JSON.parse(currentCart) : { 
+            costumerName: "Unknow 2",
+            costumerContact: "00000002",
+            status: "pending",
+            products: []
+        };
+        
+        // Verifica se o produto já está no carrinho
+        const existingProduct = parsedCart.products.find((item: { id: number; quantity: number }) => item.id ===  +product.id);
+        
+        if (existingProduct) {
+            // Se existir, incrementa a quantidade
+            existingProduct.quantity += 1;
+        } else {
+            // Se não existir, adiciona ao array
+            parsedCart.products.push({...product, quantity: 1 });
+        }
+        
+        localStorage.setItem("cart-billing-system", JSON.stringify(parsedCart));
+    };
     return (
         <div className="flex-1 flex flex-col">
             <section className="flex-1 py-4 px-6">
@@ -39,13 +63,13 @@ export default function Home() {
                                     {navlink.title}
                                 </div>
                             </div>
-                        )) : allProducts.length === 0 ? (
+                        )) : allProducts?.length === 0 ? (
                             <p className="text-center text-neutral-500 col-span-4   ">Nenhum produto do tipo <strong>{category}</strong> encontrado.</p>
-                        ) : allProducts.map(product => (
+                        ) : allProducts?.map(product => (
                             <div key={product.id} className="p-4 space-y-4 border rounded-lg text-center cursor-pointer shadow-sm hover:shadow-md transition overflow-hidden bg-white dark:bg-neutral-900 focus-visible:ring focus-visible:ring-sacalinha-first" onClick={() => handleAddToCart(product)}
                             >
                                 <div>
-                                    <span className="text-xs text-neutral-500">{product.type.toUpperCase()}</span>
+                                    <span className="text-xs text-neutral-500">{product.category.toUpperCase()}</span>
                                 </div>
                                 <div>
                                     <span className="font-medium">{product.name}</span>
